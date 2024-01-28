@@ -21,10 +21,14 @@ Ultralisp is required (cl-sdl2-hershey). This library is not yet on ultralisp. C
 *** DONE provide colors and names
 *** DONE example
 
+[[./docs/colors.png]]
+
 ** Themes
 
 *** DONE provide themes
 *** DONE example
+
+[[./docs/themes.png]]
 
 ** Controllers
 

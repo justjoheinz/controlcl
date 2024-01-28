@@ -1,5 +1,7 @@
 (uiop:define-package controlcl/ex-colors
-  (:use :cl :controlcl :cl-sdl2-hershey))
+  (:use :cl :controlcl :cl-sdl2-hershey)
+  (:export
+   #:main))
 
 (in-package :controlcl/ex-colors)
 
