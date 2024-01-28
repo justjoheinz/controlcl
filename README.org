@@ -2,6 +2,8 @@
 
 
 
+[[https://github.com/justjoheinz/controlcl/actions/workflows/ci.yaml/badge.svg]]
+
 * ControlCL
 
 ControlCL is a GUI library, which is very inspired by [[https://github.com/sojamo/controlp5][controlp5]] for the [[https://processing.org/][Processing]] environment. Though I have not used Processing in a long term, I always liked the Look and Feel of the controlp5 library and the ease of use.
