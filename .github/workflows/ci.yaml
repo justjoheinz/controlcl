@@ -1,9 +1,6 @@
 name: CI
 
-on:
-  push:
-  schedule:
-    - cron: "0 15 * * *"
+on: workflow_dispatch
 
 jobs:
   test:
