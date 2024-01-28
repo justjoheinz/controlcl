@@ -18,21 +18,21 @@ Ultralisp is required (cl-sdl2-hershey). This library is not yet on ultralisp. C
 
 ** Color Schemes
 
-*** DONE provide colors and names
-*** DONE example
+*** [X] provide colors and names
+*** [X] example
 
 [[./docs/colors.png]]
 
 ** Themes
 
-*** DONE provide themes
-*** DONE example
+*** [X] provide themes
+*** [X] example
 
 [[./docs/themes.png]]
 
 ** Controllers
 
-*** STRT provide bang controller
-*** STRT provide slider controller
-*** TODO provide controlcc hub
-*** TODO add more todos
+*** [-] provide bang controller
+*** [-] provide slider controller
+*** [ ] provide controlcc hub
+*** [ ] add more todos
