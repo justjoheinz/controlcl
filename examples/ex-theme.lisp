@@ -9,29 +9,35 @@
 
 
 (defun render-theme (renderer y &optional (*current-theme* *current-theme*))
-  ;; fg, active, value
-  (set-color-from-theme renderer :fg)
-  (sdl2:render-fill-rect renderer (sdl2:make-rect 0 y 100 100))
 
-  (with-font *roman-simplex-font* 0.35
+  (sdl2:with-rects ((rect-000 0 y 100 100)
+                    (rect-100 100 y 100 100)
+                    (rect-200 200 y 100 100)
+                    (rect-300 300 y 100 100)
+                    (rect-400 400 y 100 100))
+    ;; fg, active, value
+    (set-color-from-theme renderer :fg)
+    (sdl2:render-fill-rect renderer rect-000)
+
+    (with-font *roman-simplex-font* 0.35
+      (set-color-from-theme renderer :value)
+      (render-hershey-string renderer 25 (+ y 50) "VALUE"))
+
+    ;;bg
+    (set-color-from-theme renderer :bg)
+    (sdl2:render-fill-rect renderer rect-100)
+
+    ;; active
+    (set-color-from-theme renderer :active)
+    (sdl2:render-fill-rect renderer rect-200)
+
+    ;; caption
+    (set-color-from-theme renderer :caption)
+    (sdl2:render-fill-rect renderer rect-300)
+
+    ;; value
     (set-color-from-theme renderer :value)
-    (render-hershey-string renderer 25 (+ y 50) "VALUE"))
-
-  ;;bg
-  (set-color-from-theme renderer :bg)
-  (sdl2:render-fill-rect renderer (sdl2:make-rect 100 y 100 100))
-
-  ;; active
-  (set-color-from-theme renderer :active)
-  (sdl2:render-fill-rect renderer (sdl2:make-rect 200 y 100 100))
-
-  ;; caption
-  (set-color-from-theme renderer :caption)
-  (sdl2:render-fill-rect renderer (sdl2:make-rect 300 y 100 100))
-
-  ;; value
-  (set-color-from-theme renderer :value)
-  (sdl2:render-fill-rect renderer (sdl2:make-rect 400 y 100 100)))
+    (sdl2:render-fill-rect renderer rect-400)))
 
 
 (defun main ()

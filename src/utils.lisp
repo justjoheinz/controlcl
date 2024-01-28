@@ -3,7 +3,7 @@
 
 ;; UTILITIES
 
-(defun point-rect (x y w h x1 y1)
+(defun point-in-rect (x y w h x1 y1)
   "Return true if the point x1,y1 is inside the rectangle x,y,w,h"
   (and (<= x x1 (+ x w))
        (<= y y1 (+ y h))))

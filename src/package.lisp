@@ -18,4 +18,8 @@
    #:color-values
    #:*colors*
    #:set-color-from-theme
-   #:set-color-from-code))
+   #:set-color-from-code
+   #:set-color-from-palette
+   #:v-factor
+   #:with-theme
+   #:point-in-rect))

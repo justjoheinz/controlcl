@@ -53,7 +53,8 @@ By default it sets the VISIBLE flag to NIL.")
   (with-slots (x y w h) ctrl
     (let ((color-key (if (controller-mouse-over ctrl) :active :fg)))
       (set-color-from-theme renderer color-key)
-      (sdl2:render-fill-rect renderer (sdl2:make-rect x y w h))
+      (sdl2:with-rects ((rect x y w h))
+        (sdl2:render-fill-rect renderer rect))
       (set-color-from-theme renderer :caption)
       (with-font *roman-plain-font* 0.6
         (render-hershey-string renderer x (+ y h 10) (bang-name ctrl))))))
@@ -73,17 +74,20 @@ By default it sets the VISIBLE flag to NIL.")
   (with-slots (x y w h min-value max-value value) ctrl
     (let* ((cv (alexandria:clamp value min-value max-value))
            (v-factor (v-factor cv min-value max-value))
-           (color-key (if (controller-mouse-over ctrl) :active :fg)))
-      (set-color-from-theme renderer :bg)
-      (sdl2:render-fill-rect renderer (sdl2:make-rect x y w h))
-      (set-color-from-theme renderer color-key)
-      (sdl2:render-fill-rect renderer (sdl2:make-rect x y (floor (* w v-factor)) h))
+           (color-key (if (controller-mouse-over ctrl) :active :fg))
+           (h2 (/ h 2)))
+      (sdl2:with-rects ((rect-bg x y w h)
+                        (rect-fg x y (floor (* w v-factor)) h))
+        (set-color-from-theme renderer :bg)
+        (sdl2:render-fill-rect renderer rect-bg)
+        (set-color-from-theme renderer color-key)
+        (sdl2:render-fill-rect renderer rect-fg))
 
       (with-font *roman-plain-font* 0.6
         (set-color-from-theme renderer :caption)
-        (render-hershey-string renderer (+ x w 10) (+ y (/ h 2)) (slider-name ctrl))
+        (render-hershey-string renderer (+ x w 10) (+ y h2) (slider-name ctrl))
         (set-color-from-theme renderer :value)
-        (render-hershey-string renderer (+ x 5 ) (+ y (/ h 2)) (format nil "~a" cv))))))
+        (render-hershey-string renderer (+ x 5 ) (+ y h2) (format nil "~a" cv))))))
 
 
 ;; CONTROLCL

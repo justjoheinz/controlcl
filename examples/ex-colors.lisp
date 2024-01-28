@@ -1,3 +1,5 @@
+(in-package :cl-user)
+
 (uiop:define-package controlcl/ex-colors
   (:use :cl :controlcl :cl-sdl2-hershey)
   (:export
@@ -23,8 +25,8 @@
 
                        do (progn
                             (controlcl:set-color-from-code renderer color-code)
-                            (sdl2:render-fill-rect renderer
-                                                   (sdl2:make-rect (* i width) 0 width 100))
+                            (sdl2:with-rects ((rect (* i width) 0 width 100))
+                              (sdl2:render-fill-rects renderer rect 1))
                             (with-font cl-sdl2-hershey:*roman-simplex-font* 0.35
                               (controlcl:set-color-from-theme renderer :value)
                               (let ((x (+ (* i width) 10))

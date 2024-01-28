@@ -22,4 +22,5 @@
   :serial t
   :depends-on ("controlcl")
   :components ((:module "examples"
-                :components ((:file "ex-theme")))))
+                :components ((:file "ex-theme")
+                             (:file "ex-colors")))))
