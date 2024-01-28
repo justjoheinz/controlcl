@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+  schedule:
+    - cron: "0 15 * * *"
+
+jobs:
+  test:
+    name: ${{ matrix.lisp }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        lisp: [sbcl-bin/2.4.0, ccl-bin/1.12.2]
+        os: [ubuntu-latest]
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: install_dependencies
+        run: |
+          sudo add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu `lsb_release -sc` main universe restricted multiverse"
+          sudo apt-get update -y -qq
+          sudo apt-get install libsdl2-dev
+
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Install Roswell
+        env:
+          LISP: ${{ matrix.lisp }}
+          ROSWELL_INSTALL_DIR: /usr
+        run: |
+          curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
+          echo "$HOME/.roswell/bin" >> $GITHUB_PATH
+      - name: Install qlot
+        run: ros install fukamachi/qlot
+      - name: Install dependencies with qlot
+        run: qlot install
+      - name: Install rove
+        run: ros install fukamachi/rove
+      - name: Run tests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          rove cl-sdl2-hershey.asd

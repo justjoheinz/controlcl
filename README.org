@@ -1,0 +1,32 @@
+#+title: Readme
+
+
+
+* ControlCL
+
+ControlCL is a GUI library, which is very inspired by [[https://github.com/sojamo/controlp5][controlp5]] for the [[https://processing.org/][Processing]] environment. Though I have not used Processing in a long term, I always liked the Look and Feel of the controlp5 library and the ease of use.
+
+Hence I make an attempt to port some portions of it to Common Lisp and sdl2. The goal is not to make a complete copy, but provide functionality as needed, thereby learning about CL and sdl2.
+
+* Installation
+
+Ultralisp is required (cl-sdl2-hershey). This library is not yet on ultralisp. Clone the repository to get started. Getting started implies most like getting Pull Request ready.
+
+* Implementation
+
+** Color Schemes
+
+*** DONE provide colors and names
+*** DONE example
+
+** Themes
+
+*** DONE provide themes
+*** DONE example
+
+** Controllers
+
+*** STRT provide bang controller
+*** STRT provide slider controller
+*** TODO provide controlcc hub
+*** TODO add more todos
