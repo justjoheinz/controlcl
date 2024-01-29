@@ -2,6 +2,8 @@
 
 (uiop:define-package :controlcl
   (:use :cl :cl-sdl2-hershey)
+  (:import-from :alexandria
+   :clamp)
   (:export
    #:*theme-retro*
    #:*theme-cp52014*
@@ -45,4 +47,5 @@
    #:controller-value
    #:controller-id
    #:controller-visible
-   #:controller-mouse-over))
+   #:controller-mouse-over
+   #:controller-set-mouse-over-color))

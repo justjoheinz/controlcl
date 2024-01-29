@@ -10,14 +10,15 @@
    (value :initarg :value :accessor controller-value :initform nil)
    (id :initarg :id :accessor controller-id :initform nil)
    (visible :initarg :visible :accessor controller-visible :initform t)
-   (mouse-over :initarg :mouse-over :accessor controller-mouse-over :initform nil)))
+   (mouse-over :initarg :mouse-over :accessor controller-mouse-over :initform nil)
+   (renderer :initarg :renderer :accessor controller-renderer :initform nil)))
 
 ;; generic function definitions
 
-(defgeneric controller-draw  (controller renderer)
+(defgeneric controller-draw  (controller)
   (:documentation "draw the controller to the renderer"))
 
-(defmethod controller-draw :around ((ctrl controller) renderer)
+(defmethod controller-draw :around ((ctrl controller))
   (when (and (controller-visible ctrl) (next-method-p))
     (call-next-method)))
 
@@ -41,6 +42,11 @@ By default it sets the VISIBLE flag to NIL.")
     (point-in-rect (controller-x ctrl) (controller-y ctrl)
                    (controller-w ctrl) (controller-h ctrl) x y)))
 
+(defgeneric controller-set-mouse-over-color (controller)
+  (:documentation "decide if the active or foreground color should be returned")
+  (:method ((ctrl controller))
+    (let ((color-key (if (controller-mouse-over ctrl) :active :fg)))
+      (set-color-from-theme (controller-renderer ctrl) color-key))))
 
 ;; BANG
 
@@ -49,15 +55,14 @@ By default it sets the VISIBLE flag to NIL.")
    (w :initform 20)
    (h :initform 20)))
 
-(defmethod controller-draw ((ctrl bang) renderer)
-  (with-slots (x y w h) ctrl
-    (let ((color-key (if (controller-mouse-over ctrl) :active :fg)))
-      (set-color-from-theme renderer color-key)
-      (sdl2:with-rects ((rect x y w h))
-        (sdl2:render-fill-rect renderer rect))
-      (set-color-from-theme renderer :caption)
-      (with-font *roman-plain-font* 0.6
-        (render-text renderer x (+ y h 10) (bang-name ctrl))))))
+(defmethod controller-draw ((ctrl bang))
+  (with-slots (x y w h renderer) ctrl
+    (controller-set-mouse-over-color ctrl)
+    (sdl2:with-rects ((rect x y w h))
+      (sdl2:render-fill-rect renderer rect))
+    (set-color-from-theme renderer :caption)
+    (with-font *roman-plain-font* 0.6
+      (render-text renderer x (+ y h 10) (bang-name ctrl)))))
 
 ;; SLIDER
 
@@ -70,17 +75,16 @@ By default it sets the VISIBLE flag to NIL.")
    (h :initform 20)))
 
 
-(defmethod controller-draw ((ctrl slider) renderer)
-  (with-slots (x y w h min-value max-value value) ctrl
-    (let* ((cv (alexandria:clamp value min-value max-value))
+(defmethod controller-draw ((ctrl slider))
+  (with-slots (x y w h min-value max-value value renderer) ctrl
+    (let* ((cv (clamp value min-value max-value))
            (v-factor (v-factor cv min-value max-value))
-           (color-key (if (controller-mouse-over ctrl) :active :fg))
            (h2 (/ h 2)))
       (sdl2:with-rects ((rect-bg x y w h)
                         (rect-fg x y (floor (* w v-factor)) h))
         (set-color-from-theme renderer :bg)
         (sdl2:render-fill-rect renderer rect-bg)
-        (set-color-from-theme renderer color-key)
+        (controller-set-mouse-over-color ctrl)
         (sdl2:render-fill-rect renderer rect-fg))
 
       (with-font *roman-plain-font* 0.6
