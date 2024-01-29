@@ -8,7 +8,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        lisp: [sbcl-bin/2.4.0, ccl-bin/1.12.2]
+        lisp: [sbcl-bin/2.4.0]
         os: [ubuntu-latest]
       fail-fast: false
 
@@ -40,4 +40,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          rove cl-sdl2-hershey.asd
+          qlot exec rove controlcl.asd
