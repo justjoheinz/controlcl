@@ -12,6 +12,10 @@ all: 			## Compile all artifacts and execute tests
 		--eval '(ql:quickload :controlcl/tests)' \
 		--eval '(uiop:quit (if (rove:run "controlcl/tests") 0 1))'
 
+clean: ## Recursively delete fasl file
+	find ./ -name "*.fasl" -delete
+
+
 ex-colors: 		## Run the ex-colors example
 	$(LISP) \
 		--non-interactive \
