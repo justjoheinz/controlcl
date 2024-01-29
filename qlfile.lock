@@ -1,0 +1,20 @@
+("quicklisp" .
+ (:class qlot/source/dist:source-dist
+  :initargs (:distribution "https://beta.quicklisp.org/dist/quicklisp.txt" :%version :latest)
+  :version "2023-10-21"))
+("ultralisp" .
+ (:class qlot/source/dist:source-dist
+  :initargs (:distribution "https://dist.ultralisp.org/" :%version :latest)
+  :version "20240127152000"))
+("alexandria" .
+ (:class qlot/source/ql:source-ql
+  :initargs (:%version :latest)
+  :version "ql-2023-10-21"))
+("cl-sdl2" .
+ (:class qlot/source/github:source-github
+  :initargs (:repos "ellisvelo/cl-sdl2" :ref nil :branch nil :tag nil)
+  :version "github-f7df0baad93e57c31fdfc7098dcc26de14dedfd2"))
+("cl-sdl2-hershey" .
+ (:class qlot/source/github:source-github
+  :initargs (:repos "justjoheinz/cl-sdl2-hershey" :ref nil :branch nil :tag nil)
+  :version "github-278fa0e18864f29f6d60a120a66fc289f35a4286"))

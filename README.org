@@ -12,7 +12,22 @@ Hence I make an attempt to port some portions of it to Common Lisp and sdl2. The
 
 * Installation
 
-Ultralisp is required (cl-sdl2-hershey). This library is not yet on ultralisp. Clone the repository to get started. Getting started implies most like getting Pull Request ready.
+Ultralisp is required (cl-sdl2-hershey). This library is not yet on ultralisp. Clone the repository to get started. Getting started implies most like getting Pull Requests ready.
+
+The Makefile as is, implies that qlot is installed and that the libraries have been installed using qlot.
+
+#+begin_sec shell
+make
+
+Usage:
+  make
+  help             show help message
+  all              Compile all artifacts and execute tests
+  ex-colors        Run the ex-colors example
+  ex-theme         Run the ex-theme example
+  ex-ctrl          Run the ex-ctrl example
+#+end_src
+
 
 * Implementation
 
