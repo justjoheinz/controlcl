@@ -8,7 +8,7 @@
 (in-package :controlcl/ex-colors)
 
 (defun main ()
-  (hershey-init)
+  (controlcl-init)
   (sdl2:with-init (:everything)
     (sdl2:with-window (window :title "ControlCL Example-Colors" :w 1105 :h 100 :flags '(:shown))
       (sdl2:with-renderer (renderer window :flags '(:accelerated))
@@ -32,7 +32,7 @@
                               (let ((x (+ (* i width) 10))
                                     (y 20)
                                     (text (format nil ":~a" name)))
-                                (render-hershey-string renderer x y text)))))
+                                (render-text renderer x y text)))))
                  (sdl2:render-present renderer)
                  (sdl2:delay 40))
           (:quit () t))))))

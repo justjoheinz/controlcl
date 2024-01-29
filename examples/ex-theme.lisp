@@ -5,7 +5,7 @@
 
 (in-package :controlcl/ex-theme)
 
-(hershey-init)
+(controlcl-init)
 
 
 (defun render-theme (renderer y &optional (*current-theme* *current-theme*))

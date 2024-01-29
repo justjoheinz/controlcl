@@ -57,7 +57,7 @@ By default it sets the VISIBLE flag to NIL.")
         (sdl2:render-fill-rect renderer rect))
       (set-color-from-theme renderer :caption)
       (with-font *roman-plain-font* 0.6
-        (render-hershey-string renderer x (+ y h 10) (bang-name ctrl))))))
+        (render-text renderer x (+ y h 10) (bang-name ctrl))))))
 
 ;; SLIDER
 
@@ -85,9 +85,9 @@ By default it sets the VISIBLE flag to NIL.")
 
       (with-font *roman-plain-font* 0.6
         (set-color-from-theme renderer :caption)
-        (render-hershey-string renderer (+ x w 10) (+ y h2) (slider-name ctrl))
+        (render-text renderer (+ x w 10) (+ y h2) (slider-name ctrl))
         (set-color-from-theme renderer :value)
-        (render-hershey-string renderer (+ x 5 ) (+ y h2) (format nil "~a" cv))))))
+        (render-text renderer (+ x 5 ) (+ y h2) (format nil "~a" cv))))))
 
 
 ;; CONTROLCL
@@ -98,7 +98,7 @@ By default it sets the VISIBLE flag to NIL.")
 
 
 (defun main ()
-  (hershey-init)
+  (controlcc-init)
   (sdl2:with-init (:everything)
     (sdl2:with-window (window :title "ControlCL Testing" :w 800 :h 600 :flags '(:shown))
       (sdl2:with-renderer (renderer window :flags '(:accelerated))
@@ -133,4 +133,8 @@ By default it sets the VISIBLE flag to NIL.")
                    (controller-draw slider renderer)
                    (set-color-from-palette renderer :black)
                    (sdl2:render-present renderer)
-                   (sdl2:delay 10))))))))
+                   (sdl2:delay 20))))))))
+
+(defun test-me (x &key zap )
+  (when zap
+    (format t "zap")))

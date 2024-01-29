@@ -22,4 +22,7 @@
    #:set-color-from-palette
    #:v-factor
    #:with-theme
-   #:point-in-rect))
+   #:point-in-rect
+   #:controlcl-version
+   #:controlcl-init
+   #:render-text))
