@@ -21,4 +21,4 @@
 ("cl-sdl2-hershey" .
  (:class qlot/source/github:source-github
   :initargs (:repos "justjoheinz/cl-sdl2-hershey" :ref nil :branch nil :tag nil)
-  :version "github-278fa0e18864f29f6d60a120a66fc289f35a4286"))
+  :version "github-5c03453895fd8fc351f6a514b6810563514615d2"))

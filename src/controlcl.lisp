@@ -61,8 +61,8 @@ By default it sets the VISIBLE flag to NIL.")
     (sdl2:with-rects ((rect x y w h))
       (sdl2:render-fill-rect renderer rect))
     (set-color-from-theme renderer :caption)
-    (with-font *roman-plain-font* 0.6
-      (render-text renderer x (+ y h 10) (bang-name ctrl)))))
+    (with-font (*roman-plain-font* 0.6)
+        (render-text renderer x (+ y h 10) (bang-name ctrl)))))
 
 ;; SLIDER
 
@@ -87,8 +87,8 @@ By default it sets the VISIBLE flag to NIL.")
         (controller-set-mouse-over-color ctrl)
         (sdl2:render-fill-rect renderer rect-fg))
 
-      (with-font *roman-plain-font* 0.6
-        (set-color-from-theme renderer :caption)
+      (with-font (*roman-plain-font* 0.6)
+          (set-color-from-theme renderer :caption)
         (render-text renderer (+ x w 10) (+ y h2) (slider-name ctrl))
         (set-color-from-theme renderer :value)
         (render-text renderer (+ x 5 ) (+ y h2) (format nil "~a" cv))))))

@@ -16,8 +16,8 @@
     (set-color-from-theme renderer :fg)
     (sdl2:render-fill-rect renderer rect-000)
 
-    (with-font *roman-simplex-font* 0.35
-      (set-color-from-theme renderer :value)
+    (with-font (*roman-simplex-font* 0.35)
+        (set-color-from-theme renderer :value)
       (render-hershey-string renderer 25 (+ y 50) "VALUE"))
 
     ;;bg
