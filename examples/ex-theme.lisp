@@ -5,9 +5,6 @@
 
 (in-package :controlcl/ex-theme)
 
-(controlcl-init)
-
-
 (defun render-theme (renderer y &optional (*current-theme* *current-theme*))
 
   (sdl2:with-rects ((rect-000 0 y 100 100)
@@ -44,16 +41,17 @@
   (sdl2:with-init (:everything)
     (sdl2:with-window (window :title "ControlCL Example-Theme" :w 500 :h 600 :flags '(:shown))
       (sdl2:with-renderer (renderer window :flags '(:accelerated))
+        (controlcl-init)
         (sdl2:with-event-loop (:method :poll)
           (:keyup (:keysym keysym)
                   (when (sdl2:scancode= (sdl2:scancode-value keysym) :scancode-escape)
-                    (sdl2:push-event :quit)))
+                    (sdl2:push-quit-event)))
           (:idle ()
                  (sdl2:render-clear renderer)
                  (loop for theme in (list *theme-retro* *theme-cp52014* *theme-cp5blue*
                                           *theme-red* *theme-grey* *theme-a*)
                        for y = 0 then (+ y 100)
-                       do (with-theme theme
+                       do (with-theme (theme)
                             (render-theme renderer y)))
 
                  ;; draw background

@@ -1,6 +1,8 @@
 
 LISP=qlot exec ros run --
 
+.PHONY: help all clean ex-colors ex-theme ex-ctrl run-all
+
 help: ## show help message
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m\033[0m\n"} /^[$$()% a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
@@ -14,7 +16,6 @@ all: 			## Compile all artifacts and execute tests
 
 clean: ## Recursively delete fasl file
 	find ./ -name "*.fasl" -delete
-
 
 ex-colors: 		## Run the ex-colors example
 	$(LISP) \
@@ -34,3 +35,8 @@ ex-ctrl: 		## Run the ex-ctrl example
 		--non-interactive \
 		--eval '(ql:quickload :controlcl/examples)' \
 		--eval "(sdl2:make-this-thread-main #'controlcl/ex-ctrl:main)"
+
+run-all: ## run all examples sequentially, escape with ESC
+	make ex-colors
+	make ex-theme
+	make ex-ctrl

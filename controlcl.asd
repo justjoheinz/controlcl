@@ -1,6 +1,6 @@
 (asdf:defsystem controlcl
   :version "0.0.1"
-  :depends-on ("sdl2" "cl-sdl2-hershey" "alexandria")
+  :depends-on ("sdl2" "cl-sdl2-hershey" "sdl2-image" "alexandria")
   :serial t
   :components ((:module "src"
                 :components ((:file "package")

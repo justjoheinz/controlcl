@@ -96,3 +96,45 @@ By default it sets the VISIBLE flag to NIL.")
 
 ;; CONTROLCL
 
+(defclass controlcl ()
+  ((controllers :initarg :controllers :accessor controlcl-controllers :initform nil)
+   (renderer :initarg :renderer :accessor controlcl-renderer :initform nil)))
+
+(defmacro with-controlcl ((controlcl renderer) &body body)
+  (declare (ignorable controlcl))
+  `(let ((,controlcl (make-instance 'controlcl :renderer ,renderer)))
+     (controlcl-init)
+     (sdl2-image:init '(:png))
+     (unwind-protect
+          (progn ,@body))
+     (sdl2-image:quit)))
+
+(defun controlcl-draw (controlcl)
+  (dolist (ctrl (controlcl-controllers controlcl))
+    (controller-draw ctrl)))
+
+(defun controlcl-show (controlcl)
+  (dolist (ctrl (controlcl-controllers controlcl))
+    (controller-show ctrl)))
+
+(defun controlcl-hide (controlcl)
+  (dolist (ctrl (controlcl-controllers controlcl))
+    (controller-hide ctrl)))
+
+(defun controlcl-add-bang (controlcl name x y)
+  (let ((bang (make-instance 'bang :name name :x x :y y
+                                   :renderer (controlcl-renderer controlcl))))
+    (push bang (controlcl-controllers controlcl))
+    bang))
+
+(defun controlcl-add-slider (controlcl name x y value  min-value max-value)
+  (let ((slider (make-instance 'slider :name name :x x :y y
+                                       :value value
+                                       :min-value min-value :max-value max-value
+                                       :renderer (controlcl-renderer controlcl))))
+    (push slider (controlcl-controllers controlcl))
+    slider))
+
+(defun controlcl-mouse-over (controlcl x y)
+  (dolist (ctrl (controlcl-controllers controlcl))
+    (setf (controller-mouse-over ctrl) (controller-mouse-over-p ctrl x y))))

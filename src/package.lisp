@@ -48,4 +48,14 @@
    #:controller-id
    #:controller-visible
    #:controller-mouse-over
-   #:controller-set-mouse-over-color))
+   #:controller-set-mouse-over-color
+   #:controlcl
+   #:controlcl-controllers
+   #:controlcl-renderer
+   #:with-controlcl
+   #:controlcl-draw
+   #:controlcl-show
+   #:controlcl-hide
+   #:controlcl-add-bang
+   #:controlcl-add-slider
+   #:controlcl-mouse-over))

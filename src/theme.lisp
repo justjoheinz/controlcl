@@ -23,7 +23,7 @@
 (defvar *theme-a* '(:fg #xFF00FFC8 :bg #xFF00D7FF :active #xFFFFFF00 :caption #xFF00B0FF :value #xFF00B0FF))
 (defvar *current-theme* *theme-retro*)
 
-(defmacro with-theme (theme &body body)
+(defmacro with-theme ((theme) &body body)
   `(let ((*current-theme* ,theme))
      ,@body))
 
