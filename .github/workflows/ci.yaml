@@ -37,7 +37,5 @@ jobs:
       - name: Install rove
         run: ros install fukamachi/rove
       - name: Run tests
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           qlot exec rove controlcl.asd
