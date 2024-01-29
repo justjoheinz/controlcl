@@ -58,4 +58,5 @@
    #:controlcl-hide
    #:controlcl-add-bang
    #:controlcl-add-slider
-   #:controlcl-mouse-over))
+   #:controlcl-mouse-over
+   #:controlcl-add-image))

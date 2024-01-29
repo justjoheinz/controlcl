@@ -50,5 +50,8 @@ Usage:
 
 *** [-] provide bang controller
 *** [-] provide slider controller
-*** [ ] provide controlcc hub
+*** [-] provide controlcc hub
+*** [-] provide image controller
+*** [ ] provide buttons
+*** [ ] test event system
 *** [ ] add more todos

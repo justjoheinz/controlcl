@@ -62,7 +62,7 @@ By default it sets the VISIBLE flag to NIL.")
       (sdl2:render-fill-rect renderer rect))
     (set-color-from-theme renderer :caption)
     (with-font (*roman-plain-font* 0.6)
-        (render-text renderer x (+ y h 10) (bang-name ctrl)))))
+      (render-text renderer x (+ y h 10) (bang-name ctrl)))))
 
 ;; SLIDER
 
@@ -88,10 +88,27 @@ By default it sets the VISIBLE flag to NIL.")
         (sdl2:render-fill-rect renderer rect-fg))
 
       (with-font (*roman-plain-font* 0.6)
-          (set-color-from-theme renderer :caption)
+        (set-color-from-theme renderer :caption)
         (render-text renderer (+ x w 10) (+ y h2) (slider-name ctrl))
         (set-color-from-theme renderer :value)
         (render-text renderer (+ x 5 ) (+ y h2) (format nil "~a" cv))))))
+
+;; IMAGE
+
+(defclass image (controller)
+  ((name :initarg :name :accessor image-name :initform nil)
+   (surface :initarg :surface :accessor image-surface :initform nil)
+   (w :initform 100)
+   (h :initform 100)))
+
+(defmethod controller-draw ((ctrl image))
+  (format nil "draw image~%")
+  (with-slots (x y w h surface renderer) ctrl
+    (sdl2:with-rects ((rect x y w h))
+      (let* ((texture (sdl2:create-texture-from-surface renderer surface)))
+        (sdl2:render-copy renderer texture :dest-rect rect)
+        (sdl2:destroy-texture texture)))))
+
 
 
 ;; CONTROLCL
@@ -134,6 +151,15 @@ By default it sets the VISIBLE flag to NIL.")
                                        :renderer (controlcl-renderer controlcl))))
     (push slider (controlcl-controllers controlcl))
     slider))
+
+(defun controlcl-add-image (controlcl name x y w h rel-image-path)
+  (let* ((image-path (asdf:system-relative-pathname :controlcl rel-image-path))
+         (surface (sdl2-image:load-image image-path))
+         (image (make-instance 'image :name name :x x :y y :w w :h h
+                                      :surface surface
+                                      :renderer (controlcl-renderer controlcl))))
+    (push image (controlcl-controllers controlcl))
+    image))
 
 (defun controlcl-mouse-over (controlcl x y)
   (dolist (ctrl (controlcl-controllers controlcl))
