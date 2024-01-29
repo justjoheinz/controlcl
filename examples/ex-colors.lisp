@@ -28,15 +28,9 @@
                          for x = (mod i 7)
                          for text = (format nil "~a" name)
                          do (progn
-                              (format t "~a ~a ~a ~a~%" name i x y)
                               (set-color-from-code renderer color-code)
                               (sdl2:with-rects ((rect (* x 100) (* y 100) 100 100))
-                                (sdl2:render-fill-rects renderer rect 1))
-
-                              )
-
-                         )
-
+                                (sdl2:render-fill-rects renderer rect 1))))
                    (sdl2:render-present renderer)
                    (sdl2:delay 40)))
           (:quit () t))))))
