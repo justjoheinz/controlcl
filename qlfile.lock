@@ -14,6 +14,10 @@
  (:class qlot/source/github:source-github
   :initargs (:repos "ellisvelo/cl-sdl2" :ref nil :branch nil :tag nil)
   :version "github-f7df0baad93e57c31fdfc7098dcc26de14dedfd2"))
+("cl-sdl2-image" .
+ (:class qlot/source/github:source-github
+  :initargs (:repos "ellisvelo/cl-sdl2-image" :ref nil :branch nil :tag nil)
+  :version "github-8734b0e24de9ca390c9f763d9d7cd501546d17d4"))
 ("cl-sdl2-hershey" .
  (:class qlot/source/github:source-github
   :initargs (:repos "justjoheinz/cl-sdl2-hershey" :ref nil :branch nil :tag nil)
