@@ -19,8 +19,8 @@
 
 (asdf:defsystem controlcl/examples
   :version "0.1"
-  :serial t
   :depends-on ("controlcl")
   :components ((:module "examples"
                 :components ((:file "ex-theme")
-                             (:file "ex-colors")))))
+                             (:file "ex-colors")
+                             (:file "ex-ctrl")))))

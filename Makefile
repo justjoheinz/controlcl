@@ -21,3 +21,9 @@ ex-theme:
 		--non-interactive \
 		--eval '(ql:quickload :controlcl/examples)' \
 		--eval "(sdl2:make-this-thread-main #'controlcl/ex-theme:main)"
+
+ex-ctrl:
+	ros run -- \
+		--non-interactive \
+		--eval '(ql:quickload :controlcl/examples)' \
+		--eval "(sdl2:make-this-thread-main #'controlcl/ex-ctrl:main)"
