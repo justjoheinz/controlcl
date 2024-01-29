@@ -16,17 +16,18 @@ Ultralisp is required (cl-sdl2-hershey). This library is not yet on ultralisp. C
 
 The Makefile as is, implies that qlot is installed and that the libraries have been installed using qlot.
 
-#+begin_sec shell
-make
+#+begin_example
+> make
 
 Usage:
   make
   help             show help message
   all              Compile all artifacts and execute tests
+  clean            Recursively delete fasl file
   ex-colors        Run the ex-colors example
   ex-theme         Run the ex-theme example
   ex-ctrl          Run the ex-ctrl example
-#+end_src
+#+end_example
 
 
 * Implementation
