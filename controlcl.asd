@@ -6,6 +6,7 @@
                 :components ((:file "package")
                              (:file "utils")
                              (:file "theme")
+                             (:file "ctrl")
                              (:file "controlcl"))))
   :in-order-to ((test-op (test-op :controlcl/tests))))
 
@@ -14,8 +15,10 @@
   :serial t
   :depends-on ("controlcl" "rove")
   :components ((:module "t"
-                :components ((:file "tests-controlcl"))))
-  :perform (test-op (op c) (symbol-call :rove :run c :style :spec)))
+                :components ((:file "package")
+                             (:file "tests-controlcl")
+                             (:file "tests-slider"))))
+  :perform (test-op (op c) (symbol-call :rove :run c :style :dot)))
 
 (asdf:defsystem controlcl/examples
   :version "0.1"
