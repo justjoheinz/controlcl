@@ -4,6 +4,9 @@
   (:use :cl :cl-sdl2-hershey)
   (:import-from :alexandria
    :clamp)
+  (:import-from :assoc-utils
+   :aget
+                :alist-values)
   (:export
    #:*theme-retro*
    #:*theme-cp52014*
@@ -60,4 +63,8 @@
    #:controlcl-add-slider
    #:controlcl-mouse-over
    #:controlcl-add-image
-   #:*controlcl*))
+   #:*controlcl*
+   #:from
+   #:controlcl-get-ctrl
+   #:controlcl-move-to
+   #:controller-move-to))

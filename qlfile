@@ -1,5 +1,6 @@
 dist ultralisp http://dist.ultralisp.org/
 ql alexandria
+ql assoc-utils
 github ellisvelo/cl-sdl2
 github ellisvelo/cl-sdl2-image
 github justjoheinz/cl-sdl2-hershey

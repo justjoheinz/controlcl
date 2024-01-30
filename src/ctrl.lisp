@@ -2,17 +2,35 @@
 
 ;; CONTROLLER
 
-
 (defclass controller ()
   ((x :initarg :x :accessor controller-x :initform nil)
    (y :initarg :y :accessor controller-y :initform nil)
    (w :initarg :w :accessor controller-w :initform nil)
    (h :initarg :h :accessor controller-h :initform nil)
    (value :initarg :value :accessor controller-value :initform nil)
-   (id :initarg :id :accessor controller-id :initform nil)
-   (visible :initarg :visible :accessor controller-visible :initform t)
-   (mouse-over :initarg :mouse-over :accessor controller-mouse-over :initform nil)
-   (renderer :initarg :renderer :accessor controller-renderer :initform nil)))
+   (id :initarg :id :accessor controller-id
+       :initform (error "An id must be provided to a controller"))
+   (visible :initarg :visible :accessor controller-visible
+            :initform t)
+   (mouse-over :initarg :mouse-over :accessor controller-mouse-over
+               :initform nil)
+   (controlcl :initarg :controlcl :accessor controller-controlcl
+              :initform nil)
+   (renderer :initarg :renderer :accessor controller-renderer
+             :initform nil)))
+
+;; check the types after instantiation
+(defmethod initialize-instance :after ((ctrl controller) &key)
+  (with-slots (x y w h id renderer controlcl) ctrl
+    (unless (and (integerp x) (integerp y) (integerp w) (integerp h))
+      (error "x,y,w,h must be integers"))
+    (unless (symbolp id)
+      (error "id must be a symbol"))
+    (unless (renderer-p renderer)
+      (error "renderer must be a sdl2 renderer"))
+    (unless (typep controlcl 'controlcl)
+      (error "controlcl must be a controlcl instance"))
+    ))
 
 ;; generic function definitions
 
@@ -53,72 +71,4 @@ By default it sets the VISIBLE flag to NIL.")
   (:method ((ctrl controller))
     (let ((color-key (if (controller-mouse-over ctrl) :active :fg)))
       (set-color-from-theme (controller-renderer ctrl) color-key))))
-
-;; BANG
-
-(defclass bang (controller)
-  ((name :initarg :name :accessor bang-name :initform nil)
-   (w :initform 20)
-   (h :initform 20)))
-
-(defmethod controller-draw ((ctrl bang))
-  (with-slots (x y w h renderer) ctrl
-    (controller-set-mouse-over-color ctrl)
-    (sdl2:with-rects ((rect x y w h))
-      (sdl2:render-fill-rect renderer rect))
-    (set-color-from-theme renderer :caption)
-    (with-font (*roman-plain-font* 0.6)
-      (render-text renderer x (+ y h 10) (bang-name ctrl)))))
-
-;; SLIDER
-
-(defclass slider (controller)
-  ((name :initarg :name :accessor slider-name :initform nil)
-   (min-value :initarg :min-value :accessor slider-min-value :initform 0)
-   (max-value :initarg :max-value :accessor slider-max-value :initform 100)
-   (value :initarg :value :accessor slider-value :initform 0)
-   (w :initform 100)
-   (h :initform 20)))
-
-
-(defmethod (setf slider-value) (value (ctrl slider))
-  (setf (controller-value ctrl)
-        (clamp value
-               (slider-min-value ctrl)
-               (slider-max-value ctrl))))
-
-
-(defmethod controller-draw ((ctrl slider))
-  (with-slots (x y w h min-value max-value value renderer) ctrl
-    (let* ((cv (clamp value min-value max-value))
-           (v-factor (v-factor cv min-value max-value))
-           (h2 (/ h 2)))
-      (sdl2:with-rects ((rect-bg x y w h)
-                        (rect-fg x y (floor (* w v-factor)) h))
-        (set-color-from-theme renderer :bg)
-        (sdl2:render-fill-rect renderer rect-bg)
-        (controller-set-mouse-over-color ctrl)
-        (sdl2:render-fill-rect renderer rect-fg))
-
-      (with-font (*roman-plain-font* 0.6)
-        (set-color-from-theme renderer :caption)
-        (render-text renderer (+ x w 10) (+ y h2) (slider-name ctrl))
-        (set-color-from-theme renderer :value)
-        (render-text renderer (+ x 5 ) (+ y h2) (format nil "~a" cv))))))
-
-
-;; IMAGE
-
-(defclass image (controller)
-  ((name :initarg :name :accessor image-name :initform nil)
-   (surface :initarg :surface :accessor image-surface :initform nil)
-   (w :initform nil)
-   (h :initform nil)))
-
-(defmethod controller-draw ((ctrl image))
-  (with-slots (x y w h surface renderer) ctrl
-    (sdl2:with-rects ((rect x y w h))
-      (let* ((texture (sdl2:create-texture-from-surface renderer surface)))
-        (sdl2:render-copy renderer texture :dest-rect rect)
-        (sdl2:destroy-texture texture)))))
 

@@ -2,8 +2,13 @@
 
 (defvar *slider* nil)
 
+
 (defhook setup :before
-  (setq *slider* (make-instance 'slider :value 50 :min-value 0 :max-value 100)))
+  (setq *controlcl* (make-instance 'controlcl:controlcl))
+  (setq *slider* (make-instance 'slider :id 'slider :name "test-slider"
+                                        :x 10 :y 10 :w 100 :h 20
+                                        :value 50 :min-value 0 :max-value 100
+                                        :controlcl *controlcl*)))
 
 (deftest slider-controller
   (testing "Slider is correctly initialised"
@@ -16,4 +21,11 @@
 
   (testing "Instantiation via controlcl-add-slider"
     ;; since value is out of bounds
-    (ok (signals  (controlcl-add-slider :name "asdf" :x 10 :y 10 :value -5 :min-value 0 :max-value 100)))))
+    (ok (signals  (controlcl-add-slider :id 'slider
+                                        :name "asdf"
+                                        :x 10 :y 10 :w 100 :h 20
+                                        :value -5 :min-value 0 :max-value 100)))
+    ;; id is missing
+    (ok (signals (controlcl-add-slider  :name "asdf"
+                                        :x 10 :y 10 :w 100 :h 20
+                                        :value -5 :min-value 0 :max-value 100)))))

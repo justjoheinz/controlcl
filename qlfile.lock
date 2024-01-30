@@ -10,6 +10,10 @@
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
   :version "ql-2023-10-21"))
+("assoc-utils" .
+ (:class qlot/source/ql:source-ql
+  :initargs (:%version :latest)
+  :version "ql-2023-10-21"))
 ("cl-sdl2" .
  (:class qlot/source/github:source-github
   :initargs (:repos "ellisvelo/cl-sdl2" :ref nil :branch nil :tag nil)
