@@ -59,4 +59,5 @@
    #:controlcl-add-bang
    #:controlcl-add-slider
    #:controlcl-mouse-over
-   #:controlcl-add-image))
+   #:controlcl-add-image
+   #:*controlcl*))

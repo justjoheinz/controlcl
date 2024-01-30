@@ -1,6 +1,9 @@
 (in-package :controlcl)
 
+(defvar *controlcl* nil)
+
 ;; CONTROLLER
+
 
 (defclass controller ()
   ((x :initarg :x :accessor controller-x :initform nil)
@@ -35,10 +38,15 @@ By default it sets the VISIBLE flag to NIL.")
   (:method ((ctrl controller))
     (setf (controller-visible ctrl) nil)))
 
+(defgeneric controller-move-to (controller &key x y)
+  (:documentation "move the controller to the position x,y")
+  (:method ((ctrl controller) &key x y)
+    (setf (controller-x ctrl) x
+          (controller-y ctrl) y)))
 
-(defgeneric controller-mouse-over-p (controller x y)
+(defgeneric controller-mouse-over-p (controller &key x y)
   (:documentation "return T if the point x,y is over the controller")
-  (:method ((ctrl controller) x y)
+  (:method ((ctrl controller) &key x y)
     (point-in-rect (controller-x ctrl) (controller-y ctrl)
                    (controller-w ctrl) (controller-h ctrl) x y)))
 
@@ -98,11 +106,10 @@ By default it sets the VISIBLE flag to NIL.")
 (defclass image (controller)
   ((name :initarg :name :accessor image-name :initform nil)
    (surface :initarg :surface :accessor image-surface :initform nil)
-   (w :initform 100)
-   (h :initform 100)))
+   (w :initform nil)
+   (h :initform nil)))
 
 (defmethod controller-draw ((ctrl image))
-  (format nil "draw image~%")
   (with-slots (x y w h surface renderer) ctrl
     (sdl2:with-rects ((rect x y w h))
       (let* ((texture (sdl2:create-texture-from-surface renderer surface)))
@@ -117,50 +124,51 @@ By default it sets the VISIBLE flag to NIL.")
   ((controllers :initarg :controllers :accessor controlcl-controllers :initform nil)
    (renderer :initarg :renderer :accessor controlcl-renderer :initform nil)))
 
-(defmacro with-controlcl ((controlcl renderer) &body body)
-  (declare (ignorable controlcl))
-  `(let ((,controlcl (make-instance 'controlcl :renderer ,renderer)))
+(defmacro with-controlcl (renderer &body body)
+  `(let ((*controlcl* (make-instance 'controlcl :renderer ,renderer)))
      (controlcl-init)
      (sdl2-image:init '(:png))
      (unwind-protect
           (progn ,@body))
      (sdl2-image:quit)))
 
-(defun controlcl-draw (controlcl)
-  (dolist (ctrl (controlcl-controllers controlcl))
+(defun controlcl-draw ()
+  (dolist (ctrl (controlcl-controllers *controlcl*))
     (controller-draw ctrl)))
 
-(defun controlcl-show (controlcl)
-  (dolist (ctrl (controlcl-controllers controlcl))
+(defun controlcl-show ()
+  (dolist (ctrl (controlcl-controllers *controlcl*))
     (controller-show ctrl)))
 
-(defun controlcl-hide (controlcl)
-  (dolist (ctrl (controlcl-controllers controlcl))
+(defun controlcl-hide ()
+  (dolist (ctrl (controlcl-controllers *controlcl*))
     (controller-hide ctrl)))
 
-(defun controlcl-add-bang (controlcl name x y)
+(defun controlcl-add-bang (&key name x y)
   (let ((bang (make-instance 'bang :name name :x x :y y
-                                   :renderer (controlcl-renderer controlcl))))
-    (push bang (controlcl-controllers controlcl))
+                                   :renderer (controlcl-renderer *controlcl*))))
+    (push bang (controlcl-controllers *controlcl*))
     bang))
 
-(defun controlcl-add-slider (controlcl name x y value  min-value max-value)
+(defun controlcl-add-slider (&key name x y value  min-value max-value)
   (let ((slider (make-instance 'slider :name name :x x :y y
                                        :value value
                                        :min-value min-value :max-value max-value
-                                       :renderer (controlcl-renderer controlcl))))
-    (push slider (controlcl-controllers controlcl))
+                                       :renderer (controlcl-renderer *controlcl*))))
+    (push slider (controlcl-controllers *controlcl*))
     slider))
 
-(defun controlcl-add-image (controlcl name x y w h rel-image-path)
+(defun controlcl-add-image (&key name x y w h rel-image-path)
   (let* ((image-path (asdf:system-relative-pathname :controlcl rel-image-path))
          (surface (sdl2-image:load-image image-path))
-         (image (make-instance 'image :name name :x x :y y :w w :h h
+         (w1 (or w (sdl2:surface-width surface)))
+         (h1 (or h (sdl2:surface-height surface)))
+         (image (make-instance 'image :name name :x x :y y :w w1 :h h1
                                       :surface surface
-                                      :renderer (controlcl-renderer controlcl))))
-    (push image (controlcl-controllers controlcl))
+                                      :renderer (controlcl-renderer *controlcl*))))
+    (push image (controlcl-controllers *controlcl*))
     image))
 
-(defun controlcl-mouse-over (controlcl x y)
-  (dolist (ctrl (controlcl-controllers controlcl))
-    (setf (controller-mouse-over ctrl) (controller-mouse-over-p ctrl x y))))
+(defun controlcl-mouse-over (&key x y)
+  (dolist (ctrl (controlcl-controllers *controlcl*))
+    (setf (controller-mouse-over ctrl) (controller-mouse-over-p ctrl :x x :y y))))

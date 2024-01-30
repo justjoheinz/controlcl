@@ -55,3 +55,8 @@ Usage:
 *** [ ] provide buttons
 *** [ ] test event system
 *** [ ] add more todos
+
+* Attributions
+
+- controlP5 is a work by Andreas Schlegel: https://www.sojamo.de/
+- Rocket icons created by Freepik - Flaticon : https://www.flaticon.com/free-icons/rocket
