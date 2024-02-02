@@ -1,11 +1,18 @@
 (asdf:defsystem controlcl
   :version "0.0.1"
-  :depends-on ("sdl2" "cl-sdl2-hershey" "sdl2-image" "alexandria" "assoc-utils")
+  :depends-on ("sdl2"
+               "cl-sdl2-hershey"
+               "sdl2-image"
+               "event-emitter"
+               "log4cl"
+               "alexandria"
+               "assoc-utils")
   :serial t
   :components ((:module "src"
                 :components ((:file "package")
                              (:file "utils")
                              (:file "theme")
+                             (:file "events")
                              (:file "ctrl")
                              (:file "bang")
                              (:file "slider")
@@ -25,7 +32,8 @@
 
 (asdf:defsystem controlcl/examples
   :version "0.1"
-  :depends-on ("controlcl")
+  :depends-on ("controlcl" "closer-mop")
+  ;; closer-mop is just required to explore on the repl
   :components ((:module "examples"
                 :components ((:file "ex-theme")
                              (:file "ex-colors")

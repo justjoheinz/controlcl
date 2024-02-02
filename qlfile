@@ -4,3 +4,4 @@ ql assoc-utils
 github ellisvelo/cl-sdl2
 github ellisvelo/cl-sdl2-image
 github justjoheinz/cl-sdl2-hershey
+github justjoheinz/event-emitter

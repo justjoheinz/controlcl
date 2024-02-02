@@ -5,7 +5,7 @@
 
 ;; CONTROLCL
 
-(defclass controlcl ()
+(defclass controlcl (event-emitter)
   ((controllers :initarg :controllers :accessor controlcl-controllers :initform nil)
    (renderer :initarg :renderer :accessor controlcl-renderer :initform nil)))
 
@@ -34,9 +34,14 @@
   (do-ctrls (ctrl *controlcl*)
     (controller-hide ctrl)))
 
-(defun controlcl-get-ctrl (&key id)
+(defun controlcl-get-ctrl (id)
   "get the CTRL from *CONTROLCL* with the id"
   (aget (controlcl-controllers *controlcl*) id))
+
+(defgeneric controlcl-emit-event (event))
+
+(defmethod controlcl-emit-event ((event event))
+  (emit-event event))
 
 (defun controlcl-add-bang (&key id name x y (w 20) (h 20))
   (let ((bang (make-instance 'bang :id id
@@ -80,3 +85,17 @@
 (defun controlcl-move-to (&key x y)
   (do-ctrls (ctrl *controlcl*)
     (controller-move-to ctrl :x x :y y)))
+
+
+;; EVENTS DISPATCHER
+;;
+(defun emit-event (event)
+  (with-slots (id source target) event
+    (log4cl:log-info "emit-event ~S : ~S -> ~S" id source target)
+    (if (null target)
+        (do-ctrls (ctrl *controlcl*)
+          (unless (eq (controller-id ctrl) source)
+            (emit :controlcl-event ctrl ctrl event))) ; broadcast
+        (let ((ctrl (controlcl-get-ctrl target)))
+          (unless (eq (controller-id ctrl) source)
+            (emit :controlcl-event ctrl ctrl event))))))

@@ -7,13 +7,13 @@
   ((name :initarg :name :accessor slider-name :initform nil)
    (min-value :initarg :min-value :accessor slider-min-value :initform 0)
    (max-value :initarg :max-value :accessor slider-max-value :initform 100)
-   (value :initarg :value :accessor slider-value :initform 0)
+   (value :initform 0)
    (w :initform (error "you must provide a width"))
    (h :initform (error "you must provide a height"))))
 
 
-(defmethod (setf slider-value) (value (ctrl slider))
-  (setf (controller-value ctrl)
+(defmethod (setf controller-value) (value (ctrl slider))
+  (setf (slot-value ctrl 'value)
         (clamp value
                (slider-min-value ctrl)
                (slider-max-value ctrl))))

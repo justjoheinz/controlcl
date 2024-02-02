@@ -12,12 +12,12 @@
 
 (deftest slider-controller
   (testing "Slider is correctly initialised"
-    (ok (= (slider-value *slider*) 50)))
+    (ok (= (controller-value *slider*) 50)))
 
   (testing "Setter for value, min-value, max-value. Value cannot be set out of bounds."
-    (ok (= (setf (slider-value *slider*) -1) 0))
-    (ok (= (setf (slider-value *slider*) 101) 100))
-    (ok (= (setf (slider-value *slider*) 50) 50)))
+    (ok (= (setf (controller-value *slider*) -1) 0))
+    (ok (= (setf (controller-value *slider*) 101) 100))
+    (ok (= (setf (controller-value *slider*) 50) 50)))
 
   (testing "Instantiation via controlcl-add-slider"
     ;; since value is out of bounds

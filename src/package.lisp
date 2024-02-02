@@ -7,6 +7,11 @@
   (:import-from :assoc-utils
    :aget
                 :alist-values)
+  (:import-from :event-emitter
+   :event-emitter
+                :on
+   :emit
+                :once)
   (:export
    #:*theme-retro*
    #:*theme-cp52014*
@@ -35,7 +40,6 @@
    #:slider-name
    #:slider-min-value
    #:slider-max-value
-   #:slider-value
    #:bang
    #:bang-name
    #:controller-mouse-over-p
@@ -67,4 +71,21 @@
    #:from
    #:controlcl-get-ctrl
    #:controlcl-move-to
-   #:controller-move-to))
+   #:controller-move-to
+   #:event
+   #:event-id
+   #:event-source
+   #:event-target
+   #:event-mouse
+   #:event-mouse-x
+   #:event-mouse-y
+   #:event-mouse-button
+   #:event-mouse-modifiers
+   #:event-key
+   #:event-key-key
+   #:event-key-modifiers
+   #:event-value
+   #:event-value-old
+   #:event-value-new
+   #:controlcl-emit-event
+   #:on-event))

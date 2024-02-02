@@ -5,13 +5,15 @@
 
 (defvar *controlcl-event* (sdl2:register-user-event-type :controlcl))
 
+(declaim (ftype (function (number number number number number number) boolean) point-in-rect))
 (defun point-in-rect (x y w h x1 y1)
   "Return true if the point x1,y1 is inside the rectangle x,y,w,h"
   (and (<= x x1 (+ x w))
        (<= y y1 (+ y h))))
 
 
-(defun v-factor ( value min-v max-v)
+(declaim (ftype (function (number number number) boolean) v-float))
+(defun v-factor (value min-v max-v)
   "Return a value between 0 and 1, expressing the relation of value to min-v and max-v."
   (let ((v (- value min-v))
         (max (- max-v min-v)))
@@ -34,6 +36,7 @@
   (asdf:component-version (asdf:find-system :controlcl)))
 
 (defun renderer-p (obj)
+  (declare (ignore obj))
   "Return true if obj is a renderer"
   t)
 ;; this would be correct, need to rething testing strategy for this:  (typep obj 'sdl2-ffi:sdl-renderer))
