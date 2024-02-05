@@ -56,6 +56,9 @@ Usage:
 *** [ ] test event system
 *** [ ] add more todos
 
+[[./docs/controllers.png]]
+
+
 * Attributions
 
 - controlP5 is a work by Andreas Schlegel: https://www.sojamo.de/
