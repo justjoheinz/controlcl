@@ -47,6 +47,11 @@
                           (log4cl:log-info "Handling mouse motion event")
                           (let ((evt (make-instance 'event-mouse :x x :y y)))
                             (controlcl-emit-event evt)))
+            (:mousebuttondown (:x x :y y)
+                              (log4cl:log-info "Handling mouse button down event")
+                              (let ((evt (make-instance 'event-mouse-clicked :x x :y y)))
+                                (controlcl-emit-event evt)))
+
             (:keyup (:keysym keysym)
                     ;; ESC - quit
                     (when (sdl2:scancode= (sdl2:scancode-value keysym) :scancode-escape)

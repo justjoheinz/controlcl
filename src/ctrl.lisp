@@ -33,7 +33,7 @@
     (unless (typep controlcl 'controlcl)
       (error "controlcl must be a controlcl instance"))
     (on :controlcl-event ctrl (lambda (ctrl evt)
-                                (log4cl:log-info "mouse event ~S~&controller ~S~&"
+                                (log4cl:log-info "event ~S~&controller ~S~&"
                                                  (event-id evt)
                                                  (controller-id ctrl))
                                 (on-event ctrl evt))))

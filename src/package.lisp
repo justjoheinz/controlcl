@@ -90,4 +90,5 @@
    #:controlcl-emit-event
    #:on-event
    #:checkbox
-   #:controlcl-add-checkbox))
+   #:controlcl-add-checkbox
+   #:event-mouse-clicked))
