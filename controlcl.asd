@@ -16,6 +16,7 @@
                              (:file "ctrl")
                              (:file "bang")
                              (:file "slider")
+                             (:file "checkbox")
                              (:file "image")
                              (:file "controlcl"))))
   :in-order-to ((test-op (test-op :controlcl/tests))))

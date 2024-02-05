@@ -34,8 +34,11 @@
                                   :name "Rocket-Y"
                                   :x 20 :y 100
                                   :value r-y :min-value 0 :max-value 400)
+            (controlcl-add-checkbox :id 'boarding-complete :name "Boarding Complete"
+                                    :x 20 :y 150)
+
             (controlcl-add-bang :id 'launch :name "Launch"
-                                :x 20 :y 150)
+                                :x 20 :y 200)
             (controlcl-add-image :id 'rocket :name "Rocket"
                                  :x r-x :y r-y :w nil :h nil
                                  :rel-image-path "docs/rocket.png"))

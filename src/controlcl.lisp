@@ -51,6 +51,15 @@
     (setf (aget (controlcl-controllers *controlcl*) id) bang)
     bang))
 
+(defun controlcl-add-checkbox (&key id name x y (w 20) (h 20))
+  (let ((checkbox (make-instance 'checkbox :id id
+                                           :name name :x x :y y :w w :h h
+                                           :renderer (controlcl-renderer *controlcl*)
+                                           :controlcl *controlcl*)))
+    (setf (aget (controlcl-controllers *controlcl*) id) checkbox)
+    checkbox))
+
+
 (defun controlcl-add-slider (&key id name x y (w 100) (h 20) value  min-value max-value)
   (assert (<= min-value value max-value)
           (min-value value max-value)

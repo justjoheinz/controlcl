@@ -88,4 +88,6 @@
    #:event-value-old
    #:event-value-new
    #:controlcl-emit-event
-   #:on-event))
+   #:on-event
+   #:checkbox
+   #:controlcl-add-checkbox))
