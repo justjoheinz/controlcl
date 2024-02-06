@@ -12,13 +12,11 @@ Hence I make an attempt to port some portions of it to Common Lisp and sdl2. The
 
 * Installation
 
-Ultralisp is required (cl-sdl2-hershey). This library is not yet on ultralisp. Clone the repository to get started. Getting started implies most like getting Pull Requests ready. Alternatively try using qlot. The project is in the process of being set up for use with qlot.
+Ultralisp is required (cl-sdl2-hershey). The controlcl library is not yet on ultralisp. Clone the repository to get started. Getting started implies most like getting Pull Requests ready. Alternatively try using qlot. The project is in the process of being set up for use with qlot.
 
 The Makefile as is, implies that qlot is installed and that the libraries have been installed using qlot.
 
 #+begin_example
-> make
-
 Usage:
   make
   help             show help message
@@ -27,6 +25,9 @@ Usage:
   ex-colors        Run the ex-colors example
   ex-theme         Run the ex-theme example
   ex-ctrl          Run the ex-ctrl example
+  qlot-update      update qlot dependencies
+  docs             generate the documentation
+  run-all          run all examples sequentially, escape with ESC
 #+end_example
 
 

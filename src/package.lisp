@@ -91,4 +91,6 @@
    #:on-event
    #:checkbox
    #:controlcl-add-checkbox
-   #:event-mouse-clicked))
+   #:event-mouse-clicked
+   #:event-mouse-clicked-x
+   #:event-mouse-clicked-y))

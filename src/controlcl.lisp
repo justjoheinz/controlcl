@@ -43,24 +43,24 @@
 (defmethod controlcl-emit-event ((event event))
   (emit-event event))
 
-(defun controlcl-add-bang (&key id name x y (w 20) (h 20))
+(defun controlcl-add-bang (&key id name x y (w 20) (h 20) sticky)
   (let ((bang (make-instance 'bang :id id
                                    :name name :x x :y y :w w :h h
-                                   :renderer (controlcl-renderer *controlcl*)
-                                   :controlcl *controlcl*)))
+                                   :sticky sticky
+                                   :renderer (controlcl-renderer *controlcl*))))
     (setf (aget (controlcl-controllers *controlcl*) id) bang)
     bang))
 
-(defun controlcl-add-checkbox (&key id name x y (w 20) (h 20))
+(defun controlcl-add-checkbox (&key id name x y (w 20) (h 20) sticky)
   (let ((checkbox (make-instance 'checkbox :id id
                                            :name name :x x :y y :w w :h h
-                                           :renderer (controlcl-renderer *controlcl*)
-                                           :controlcl *controlcl*)))
+                                           :sticky sticky
+                                           :renderer (controlcl-renderer *controlcl*))))
     (setf (aget (controlcl-controllers *controlcl*) id) checkbox)
     checkbox))
 
 
-(defun controlcl-add-slider (&key id name x y (w 100) (h 20) value  min-value max-value)
+(defun controlcl-add-slider (&key id name x y (w 100) (h 20) value  min-value max-value sticky)
   (assert (<= min-value value max-value)
           (min-value value max-value)
           "It must be T that MIN-VALUE <= VALUE <= MAX-VALUE  (~S <= ~S <= ~S)." min-value value max-value)
@@ -69,21 +69,21 @@
                                        :x x :y y :w w :h h
                                        :value value
                                        :min-value min-value :max-value max-value
-                                       :renderer (controlcl-renderer *controlcl*)
-                                       :controlcl *controlcl*)))
+                                       :sticky sticky
+                                       :renderer (controlcl-renderer *controlcl*))))
     (setf (aget (controlcl-controllers *controlcl*) id) slider)
     slider))
 
-(defun controlcl-add-image (&key id name x y w h rel-image-path)
+(defun controlcl-add-image (&key id name x y w h sticky rel-image-path)
   (let* ((image-path (asdf:system-relative-pathname :controlcl rel-image-path))
          (surface (sdl2-image:load-image image-path))
          (w1 (or w (sdl2:surface-width surface)))
          (h1 (or h (sdl2:surface-height surface)))
          (image (make-instance 'image :id id
                                       :name name :x x :y y :w w1 :h h1
+                                      :sticky sticky
                                       :surface surface
-                                      :renderer (controlcl-renderer *controlcl*)
-                                      :controlcl *controlcl*)))
+                                      :renderer (controlcl-renderer *controlcl*))))
     (setf (aget (controlcl-controllers *controlcl*) id) image)
     image))
 

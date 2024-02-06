@@ -3,35 +3,62 @@
 ;; CONTROLLER
 
 (defclass controller (event-emitter)
-  ((x :initarg :x :accessor controller-x :initform nil)
-   (y :initarg :y :accessor controller-y :initform nil)
-   (w :initarg :w :accessor controller-w :initform nil)
-   (h :initarg :h :accessor controller-h :initform nil)
-   (value :initarg :value :accessor controller-value :initform nil)
+  ((x :initarg :x
+      :accessor controller-x :initform nil
+      :documentation "x position of the controller")
+   (y :initarg :y
+      :accessor controller-y :initform nil
+      :documentation "y position of the controller")
+   (w :initarg :w
+      :accessor controller-w :initform nil
+      :documentation "width of the controller")
+   (h :initarg :h
+      :accessor controller-h :initform nil
+      :documentation "height of the controller")
+   (value :initarg :value
+          :accessor controller-value :initform nil
+          :documentation "value of the controller")
    (id :initarg :id :accessor controller-id
-       :initform (error "An id must be provided to a controller"))
+       :initform (error "An id must be provided to a controller")
+       :documentation "id of the controller.
+
+IDs are symbols and have to be unique across all controllers.
+They are used to identify the source and targets of events.")
    (visible :initarg :visible :accessor controller-visible
-            :initform t)
+            :initform t
+            :documentation "visible flag of the controller.
+
+Visible controllers are drawn by the renderer.")
    (active :initarg :active :accessor controller-active
-           :initform t)
+           :initform t
+           :documentation "active flag of the controller.
+
+Active controllers are currently selected and can decide to render or behave differently.")
+   (sticky :initarg :sticky :accessor controller-sticky
+           :initform nil
+           :documentation "sticky flag of the controller.
+
+Sticky controllers are not hidden when the VISIBLE flag is set to NIL.")
    (mouse-over :initarg :mouse-over :accessor controller-mouse-over
-               :initform nil)
-   (controlcl :initarg :controlcl :accessor controller-controlcl
-              :initform nil)
+               :initform nil
+               :documentation "mouse-over flag of the controller.
+
+Indicates that the mouse hovers over the controller.")
    (renderer :initarg :renderer :accessor controller-renderer
-             :initform nil)))
+             :initform nil
+             :documentation "The renderer associated with the controller."))
+
+  (:documentation "A controller is a visual element that can be drawn and interacted with."))
 
 ;; check the types after instantiation
 (defmethod initialize-instance :after ((ctrl controller) &key)
-  (with-slots (x y w h id renderer controlcl) ctrl
+  (with-slots (x y w h id renderer) ctrl
     (unless (and (integerp x) (integerp y) (integerp w) (integerp h))
       (error "x,y,w,h must be integers"))
     (unless (symbolp id)
       (error "id must be a symbol"))
     (unless (renderer-p renderer)
       (error "renderer must be a sdl2 renderer"))
-    (unless (typep controlcl 'controlcl)
-      (error "controlcl must be a controlcl instance"))
     (on :controlcl-event ctrl (lambda (ctrl evt)
                                 (log4cl:log-info "event ~S~&controller ~S~&"
                                                  (event-id evt)
@@ -42,13 +69,14 @@
 (defmethod (setf controller-value) :around (new-value (ctrl controller))
   (let ((old-value (controller-value ctrl)))
     (when (next-method-p)
-      (when (and (controller-controlcl ctrl) (not (equal old-value new-value)))
+      (when (not (equal old-value new-value))
         (let ((event (make-instance 'event-value
                                     :source (controller-id ctrl)
                                     :old old-value
                                     :new new-value)))
-          (controlcl-emit-event event)))
-      (call-next-method))))
+          (prog1
+              (call-next-method)
+            (controlcl-emit-event event)))))))
 
 ;; generic function definitions
 
@@ -83,10 +111,10 @@ By default it sets the VISIBLE flag to T.
     (setf (controller-visible ctrl) t)))
 
 (defgeneric controller-hide (controller)
-  (:documentation "hide the controller.
-By default it sets the VISIBLE flag to NIL.")
+  (:documentation "Hide the controller.
+By default it sets the VISIBLE flag to NIL, unless the STICKY flag for the controller is set.")
   (:method ((ctrl controller))
-    (setf (controller-visible ctrl) nil)))
+    (setf (controller-visible ctrl) (or nil (controller-sticky ctrl)))))
 
 (defgeneric controller-move-to (controller &key x y)
   (:documentation "move the controller to the position x,y")

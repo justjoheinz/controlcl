@@ -9,7 +9,9 @@
                    :olive #xFF3D9970 :green #xFF2ECC40 :lime #xFF01FF70 :yellow #xFFFFDC00
                    :orange #xFFFF851B :red #xFFFF4136 :maroon #xFF85144B :fuchsia #xFFF012BE
                    :purple #xFFB10DC9 :white #xFFFFFFFF :silver #xFFDDDDDD :gray #xFFAAAAAA
-                   :black #xFF111111 :red-salmon #xFFff3838 :turquoise #xFF08ffb4 :light-blue #xFF40afff :beige #xFFf3eddb))
+                   :black #xFF111111 :red-salmon #xFFff3838 :turquoise #xFF08ffb4
+                   :light-blue #xFF40afff :beige #xFFf3eddb)
+  "A list of colors with their hexadecimal codes.")
 
 
 
@@ -21,38 +23,46 @@
 (defvar *theme-red* '(:fg #xFFaa0000 :bg #xFF660000 :active #xFFFF0000 :caption #xFFFFFFFF :value #xFFFFFFFF))
 (defvar *theme-grey* '(:fg #xFFeeeeee :bg #xFFbbbbbb :active #xFFFFFFFF :caption #xFF555555 :value #xFF555555))
 (defvar *theme-a* '(:fg #xFF00FFC8 :bg #xFF00D7FF :active #xFFFFFF00 :caption #xFF00B0FF :value #xFF00B0FF))
-(defvar *current-theme* *theme-retro*)
+(defvar *current-theme* *theme-retro*
+  "The current theme.")
 
 (defmacro with-theme ((theme) &body body)
+  "Used to dynamically bind the *CURRENT-THEME* variable to the given theme."
   `(let ((*current-theme* ,theme))
      ,@body))
 
 (defun theme-fg-color (&optional (theme *current-theme*))
+  "Return the foreground color of the *CURRENT-THEME* or optionally given THEME."
   (getf theme :fg))
 
 (defun theme-bg-color (&optional (theme *current-theme*))
+  "Return the background color of the *CURRENT-THEME* or optionally given THEME."
   (getf theme :bg))
 
 (defun theme-active-color (&optional (theme *current-theme*))
+  "Return the active color of the *CURRENT-THEME* or optionally given THEME."
   (getf theme :active))
 
 (defun theme-caption-color (&optional (theme *current-theme*))
+  "Return the caption color of the *CURRENT-THEME* or optionally given THEME."
   (getf theme :caption))
 
 (defun theme-value-color (&optional (theme *current-theme*))
+  "Return the value color of the *CURRENT-THEME* or optionally given THEME."
   (getf theme :value))
 
 (defun color-values (color)
-  "return the encoded alpha, red, green, blue values of a color"
+  "Return the encoded alpha, red, green, blue values of a color"
   (let ((alpha (ash (logand color #xFF000000) -24))
         (red (ash (logand color #x00FF0000) -16))
         (green (ash (logand color #x0000FF00) -8))
         (blue (logand color #x000000FF)))
     (values alpha red green blue)))
 
-(defun set-color-from-palette (renderer color-key &optional (*colors* *colors*))
+(defun set-color-from-palette (renderer color-key &optional (colors *colors*))
+  "Set a color from a palette of colors."
   (declare (type keyword color-key))
-  (set-color-from-code renderer (getf *colors* color-key)))
+  (set-color-from-code renderer (getf colors color-key)))
 
 (defun set-color-from-code (renderer color-code)
   "Set the color from a hexadecimal code, like #xFF0000FF.
@@ -61,6 +71,7 @@
       (color-values color-code)
     (sdl2:set-render-draw-color renderer r g b a)))
 
-(defun set-color-from-theme (renderer color-key &optional (*current-theme* *current-theme*))
+(defun set-color-from-theme (renderer color-key &optional (current-theme *current-theme*))
+  "Set the color from the *CURRENT-THEME* or THEME when given."
   (declare (type keyword color-key))
-  (set-color-from-code renderer (getf *current-theme* color-key)))
+  (set-color-from-code renderer (getf current-theme color-key)))

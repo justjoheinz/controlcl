@@ -16,6 +16,14 @@
               (y (controller-value (controlcl-get-ctrl 'rocket-y))))
           (controller-move-to (controlcl-get-ctrl 'rocket) :x x :y y)))))
 
+;; define an on-event handler if the launch controller is clicked
+;; this will move the rocket to the top of the window
+(defmethod on-event ((ctrl controller) (evt event-mouse-clicked))
+  (log4cl:log-info "Handling mouse button down event bang")
+  (let ((target (controller-id ctrl)))
+    (if (eq target 'launch)
+        (controller-move-to (controlcl-get-ctrl 'rocket) :x 400 :y 50))))
+
 (defun main ()
   ;; Themes can be set globally or with lexical scoping
   (setq *current-theme* *theme-cp5blue*)
@@ -41,6 +49,7 @@
                                 :x 20 :y 200)
             (controlcl-add-image :id 'rocket :name "Rocket"
                                  :x r-x :y r-y :w nil :h nil
+                                 :sticky t
                                  :rel-image-path "docs/rocket.png"))
           (sdl2:with-event-loop (:method :poll)
             (:mousemotion (:x x :y y)
