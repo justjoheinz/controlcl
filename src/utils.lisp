@@ -36,7 +36,5 @@
   (asdf:component-version (asdf:find-system :controlcl)))
 
 (defun renderer-p (obj)
-  (declare (ignore obj))
-  "Return true if obj is a renderer"
-  t)
-;; this would be correct, need to rething testing strategy for this:  (typep obj 'sdl2-ffi:sdl-renderer))
+  "Return true if obj is a renderer or nil"
+  (or (null obj) (typep obj 'sdl2-ffi:sdl-renderer)))

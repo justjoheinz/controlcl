@@ -1,13 +1,23 @@
 (in-package :controlcl)
 
-(defvar *controlcl* nil)
-
 
 ;; CONTROLCL
 
 (defclass controlcl (event-emitter)
   ((controllers :initarg :controllers :accessor controlcl-controllers :initform nil)
-   (renderer :initarg :renderer :accessor controlcl-renderer :initform nil)))
+   (renderer :initarg :renderer :accessor controlcl-renderer :initform nil))
+  (:documentation "ControlCL main class.
+
+An instance holds references to all controllers and is reponsible for
+delegating events to them."))
+
+
+(declaim (type (or controlcl null) *controlcl*))
+(defvar *controlcl* nil
+  "The global controlcl instance.
+
+This should be created with WITH-CONTROLCL macro.")
+
 
 (defmacro with-controlcl (renderer &body body)
   `(let ((*controlcl* (make-instance 'controlcl :renderer ,renderer)))
@@ -41,7 +51,15 @@
 (defgeneric controlcl-emit-event (event))
 
 (defmethod controlcl-emit-event ((event event))
-  (emit-event event))
+  (with-slots (id source target) event
+    (log4cl:log-info "emit-event ~S : ~S -> ~S" id source target)
+    (if (null target)
+        (do-ctrls (ctrl *controlcl*)
+          (unless (eq (controller-id ctrl) source)
+            (emit :controlcl-event ctrl ctrl event))) ; broadcast
+        (let ((ctrl (controlcl-get-ctrl target)))
+          (unless (eq (controller-id ctrl) source)
+            (emit :controlcl-event ctrl ctrl event))))))
 
 (defun controlcl-add-bang (&key id name x y (w 20) (h 20) sticky)
   (let ((bang (make-instance 'bang :id id
@@ -95,16 +113,3 @@
   (do-ctrls (ctrl *controlcl*)
     (controller-move-to ctrl :x x :y y)))
 
-
-;; EVENTS DISPATCHER
-;;
-(defun emit-event (event)
-  (with-slots (id source target) event
-    (log4cl:log-info "emit-event ~S : ~S -> ~S" id source target)
-    (if (null target)
-        (do-ctrls (ctrl *controlcl*)
-          (unless (eq (controller-id ctrl) source)
-            (emit :controlcl-event ctrl ctrl event))) ; broadcast
-        (let ((ctrl (controlcl-get-ctrl target)))
-          (unless (eq (controller-id ctrl) source)
-            (emit :controlcl-event ctrl ctrl event))))))

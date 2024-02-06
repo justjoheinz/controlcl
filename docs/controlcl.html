@@ -15,6 +15,8 @@
 <div id="variables" class="section"><h2><a name="variables">Variables</a></h2>
 <a id="variable-2acontrolcl-2a" class="target" name="variable-2acontrolcl-2a"></a><div id="controlcl" class="section"><h3><a name="controlcl"><tt class="docutils literal">
 <span class="pre">*controlcl*</span></tt></a></h3>
+<p>The global controlcl instance.</p>
+<p>This should be created with WITH-CONTROLCL macro.</p>
 <a id="variable-2acurrent-theme-2a" class="target" name="variable-2acurrent-theme-2a"></a></div>
 <div id="current-theme" class="section"><h3><a name="current-theme"><tt class="docutils literal">
 <span class="pre">*current-theme*</span></tt></a></h3>
@@ -178,6 +180,8 @@
 <div id="classes" class="section"><h2><a name="classes">Classes</a></h2>
 <a id="class-controlcl" class="target" name="class-controlcl"></a><div id="id1" class="section"><h3><a name="id1"><tt class="docutils literal">
 <span class="pre">controlcl</span></tt></a></h3>
+<p>ControlCL main class.</p>
+<p>An instance holds references to all controllers and is reponsible for delegating events to them.</p>
 <a id="class-checkbox" class="target" name="class-checkbox"></a></div>
 <div id="checkbox" class="section"><h3><a name="checkbox"><tt class="docutils literal">
 <span class="pre">checkbox</span></tt></a></h3>
@@ -213,7 +217,7 @@
 <p>An event is a message sent from one object to another. If the target is nil the event is considered to be a broadcast event.</p>
 </div>
 </div>
-<hr class ="docutils footer" /><div class="footer">Generated on : Tue, 06 Feb 2024 19:35:19 .
+<hr class ="docutils footer" /><div class="footer">Generated on : Wed, 07 Feb 2024 00:52:37 .
 </div>
 </div>
 </body>
