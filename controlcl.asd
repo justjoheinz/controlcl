@@ -1,5 +1,8 @@
 (asdf:defsystem controlcl
   :version "0.0.1"
+  :homepage "https://github.com/justjoheinz/controlcl"
+  :source-control (:git "https://github.com/justjoheinz/controlcl.git")
+  :license "LGPL V3"
   :depends-on ("sdl2"
                "cl-sdl2-hershey"
                "sdl2-image"
