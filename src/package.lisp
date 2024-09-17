@@ -3,15 +3,15 @@
 (uiop:define-package :controlcl
   (:use :cl :cl-sdl2-hershey)
   (:import-from :alexandria
-   :clamp)
+                #:clamp)
   (:import-from :assoc-utils
-   :aget
-                :alist-values)
+                #:aget
+                #:alist-values)
   (:import-from :event-emitter
-   :event-emitter
-                :on
-   :emit
-                :once)
+                #:event-emitter
+                #:on
+                #:emit
+                #:once)
   (:export
    #:*theme-retro*
    #:*theme-cp52014*
