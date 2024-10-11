@@ -5,7 +5,7 @@
 ("ultralisp" .
  (:class qlot/source/dist:source-dist
   :initargs (:distribution "https://dist.ultralisp.org/" :%version :latest)
-  :version "20240917102500"))
+  :version "20241011102000"))
 ("alexandria" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
@@ -25,7 +25,7 @@
 ("cl-sdl2-hershey" .
  (:class qlot/source/github:source-github
   :initargs (:repos "justjoheinz/cl-sdl2-hershey" :ref nil :branch nil :tag nil)
-  :version "github-3bea54ddc98b93f38d3d07a8347669f56a88cb38"))
+  :version "github-c5b7cb9797089c46996642146e5cd5fe6dd302e7"))
 ("event-emitter" .
  (:class qlot/source/github:source-github
   :initargs (:repos "justjoheinz/event-emitter" :ref nil :branch nil :tag nil)
