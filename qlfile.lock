@@ -1,23 +1,23 @@
 ("quicklisp" .
  (:class qlot/source/dist:source-dist
   :initargs (:distribution "https://beta.quicklisp.org/dist/quicklisp.txt" :%version :latest)
-  :version "2023-10-21"))
+  :version "2024-10-12"))
 ("ultralisp" .
  (:class qlot/source/dist:source-dist
   :initargs (:distribution "https://dist.ultralisp.org/" :%version :latest)
-  :version "20241011102000"))
+  :version "20241206081500"))
 ("alexandria" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
-  :version "ql-2023-10-21"))
+  :version "ql-2024-10-12"))
 ("assoc-utils" .
  (:class qlot/source/ql:source-ql
   :initargs (:%version :latest)
-  :version "ql-2023-10-21"))
+  :version "ql-2024-10-12"))
 ("cl-sdl2" .
  (:class qlot/source/github:source-github
   :initargs (:repos "ellisvelo/cl-sdl2" :ref nil :branch nil :tag nil)
-  :version "github-e127cde090d847f4d811a44631ab0603347c486e"))
+  :version "github-746b638a3f15ba6e31576e6351831805af96f9e8"))
 ("cl-sdl2-image" .
  (:class qlot/source/github:source-github
   :initargs (:repos "ellisvelo/cl-sdl2-image" :ref nil :branch nil :tag nil)
@@ -25,7 +25,7 @@
 ("cl-sdl2-hershey" .
  (:class qlot/source/github:source-github
   :initargs (:repos "justjoheinz/cl-sdl2-hershey" :ref nil :branch nil :tag nil)
-  :version "github-c5b7cb9797089c46996642146e5cd5fe6dd302e7"))
+  :version "github-c5e89a84902af45f588cb2556a9ac7d8d4697065"))
 ("event-emitter" .
  (:class qlot/source/github:source-github
   :initargs (:repos "justjoheinz/event-emitter" :ref nil :branch nil :tag nil)
